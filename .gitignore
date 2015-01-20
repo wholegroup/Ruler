@@ -3,6 +3,7 @@
 *.user
 *.aps
 *.ncb
+*.opensdf
 *.sdf
 [Dd]istrib
 [Ss]ources/vs2010/[Rr]elease

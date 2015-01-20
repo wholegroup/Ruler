@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WixLocalization Culture="en-US" xmlns="http://schemas.microsoft.com/wix/2006/localization" >
+	<String Id="RulerARPCOMMENTS">Ruler Reader</String>
+	<String Id="RulerARPCONTACT">Andrey V.Rychkov (rr@wholegroup.com)</String>
+	<String Id="RulerUninstall">Uninstall</String>
+	<String Id="RulerManufacturer">Andrey V.Rychkov</String>
+	<String Id="RulerDescription">Ruler Reader</String>
+	<String Id="RulerError01">Newer version already installed</String>
+</WixLocalization>

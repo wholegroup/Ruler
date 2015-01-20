@@ -1,0 +1,216 @@
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<SolutionDir Condition="'$(SolutionDir)' == ''">$(MSBuildProjectDirectory)\Sources\vs2010</SolutionDir>
+
+		<Version Condition="'$(Version)' == ''">1.0.0</Version>
+		<DistribPath Condition="'$(DistribPath)' == ''">Distrib</DistribPath>
+		<TempPath Condition="'$(TempPath)' == ''">$(DistribPath)\temp</TempPath>
+		<ClientMSIPath Condition="'$(ClientMSIPath)' == ''">.</ClientMSIPath>
+		<ClientMSIName Condition="'$(ClientMSIName)' == ''">rulerr</ClientMSIName>
+		<ClientMSIName64 Condition="'$(ClientMSIName64)' == ''">rulerr64</ClientMSIName64>
+		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+		<WIXPath Condition=" '$(WixPath)' == '' ">d:/soft/wix39-binaries</WIXPath>
+	</PropertyGroup>
+
+	<Target Name="All" DependsOnTargets="create_folder;vcprojects;msi_rus;msi_eng;delete_temp_folder" />
+	
+	<!-- Создание выходной директории -->
+	<Target Name="create_folder">
+		<MakeDir Directories="$(DistribPath);$(TempPath)" />
+	</Target>
+
+	<!-- Удаление временной директории -->
+	<Target Name="delete_temp_folder">
+		<RemoveDir Directories="$(TempPath)" />
+	</Target>
+
+	<!-- сборка VC++ проектов -->
+	<Target Name="vcprojects" >
+		<WriteLinesToFile File="Sources/Version.h" Lines='#define PROGRAM_VERSION L"$(Version)"' Overwrite="true" />
+
+		<MSBuild Projects="$(SolutionDir)\Ruler.sln"
+					Properties="Configuration=Release;Platform=Win32"
+					Targets="Build"
+					StopOnFirstFailure="true" />
+
+		<MSBuild Projects="$(SolutionDir)\Ruler.sln"
+					Properties="Configuration=Release;Platform=x64"
+					Targets="Build"
+					StopOnFirstFailure="true" />
+	</Target>
+
+	<!-- подключение WIX модулей -->
+	<UsingTask TaskName="Candle" AssemblyFile="$(WixPath)\wixtasks.dll" Architecture="x86" />
+	<UsingTask TaskName="Light" AssemblyFile="$(WixPath)\wixtasks.dll" Architecture="x86" />
+
+	<!-- русская сборка msi -->
+	<Target Name="msi_rus">
+		<Candle
+			SourceFiles="$(ClientMSIPath)\rulerr.wxs"
+			DefineConstants="VERSION=$(Version);LICENSE=Documents/License_rus.rtf;LANGUAGE=1049;CODEPAGE=1251"
+			PreprocessToStdOut=""
+			PreprocessToFile=""
+			IncludeSearchPaths=""
+			NoLogo="yes"
+			OutputFile="$(TempPath)\$(ClientMSIName).wixobj"
+			SuppressSchemaValidation=""
+			ShowSourceTrace=""
+			Extensions="$(WixPath)\WixUtilExtension.dll"
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			ToolPath="$(WIXPath)" />
+
+		<Light
+			ObjectFiles="$(TempPath)\$(ClientMSIName).wixobj"
+			Extensions="$(WixPath)\WixUIExtension.dll;$(WixPath)\WixUtilExtension.dll"
+			LocalizationFiles="Ruler-ru_ru.wxl"
+			NoLogo=""
+			LeaveTemporaryFiles=""
+			ReuseCabinetCache=""
+			OutputFile="$(DistribPath)\rus\$(ClientMSIName).msi"
+			OutputAsXml=""
+			SuppressDefaultAdminSequenceActions=""
+			SuppressDefaultAdvSequenceActions=""
+			SuppressAssemblies=""
+			SuppressFiles=""
+			SuppressLayout=""
+			SuppressSchemaValidation=""
+			SuppressDefaultUISequenceActions=""
+			SuppressIntermediateFileVersionMatching=""
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			Cultures="ru-RU"
+			ToolPath="$(WIXPath)"
+			/>
+
+		<!-- x64 -->
+		<Candle
+			SourceFiles="$(ClientMSIPath)\rulerr.wxs"
+			DefineConstants="OS64;VERSION=$(Version);LICENSE=Documents/License_rus.rtf;LANGUAGE=1049;CODEPAGE=1251"
+			PreprocessToStdOut=""
+			PreprocessToFile=""
+			IncludeSearchPaths=""
+			NoLogo="yes"
+			OutputFile="$(TempPath)\$(ClientMSIName64).wixobj"
+			SuppressSchemaValidation=""
+			ShowSourceTrace=""
+			Extensions="$(WixPath)\WixUtilExtension.dll"
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			ToolPath="$(WIXPath)" />
+
+		<Light
+			ObjectFiles="$(TempPath)\$(ClientMSIName64).wixobj"
+			Extensions="$(WixPath)\WixUIExtension.dll;$(WixPath)\WixUtilExtension.dll"
+			LocalizationFiles="Ruler-ru_ru.wxl"
+			NoLogo=""
+			LeaveTemporaryFiles=""
+			ReuseCabinetCache=""
+			OutputFile="$(DistribPath)\rus\$(ClientMSIName64).msi"
+			OutputAsXml=""
+			SuppressDefaultAdminSequenceActions=""
+			SuppressDefaultAdvSequenceActions=""
+			SuppressAssemblies=""
+			SuppressFiles=""
+			SuppressLayout=""
+			SuppressSchemaValidation=""
+			SuppressDefaultUISequenceActions=""
+			SuppressIntermediateFileVersionMatching=""
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			Cultures="ru-RU"
+			ToolPath="$(WIXPath)"
+			/>
+	</Target>
+	<!-- окончание русской сборки msi -->
+
+	<!-- англоязычная сборка msi -->
+	<Target Name="msi_eng">
+		<Candle
+			SourceFiles="$(ClientMSIPath)\rulerr.wxs"
+			DefineConstants="VERSION=$(Version);LICENSE=Documents/License_eng.rtf;LANGUAGE=1033;CODEPAGE=1252"
+			PreprocessToStdOut=""
+			PreprocessToFile=""
+			IncludeSearchPaths=""
+			NoLogo="yes"
+			OutputFile="$(TempPath)\$(ClientMSIName).wixobj"
+			SuppressSchemaValidation=""
+			ShowSourceTrace=""
+			Extensions="$(WixPath)\WixUtilExtension.dll"
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			ToolPath="$(WIXPath)" />
+
+		<Light
+			ObjectFiles="$(TempPath)\$(ClientMSIName).wixobj"
+			Extensions="$(WixPath)\WixUIExtension.dll;$(WixPath)\WixUtilExtension.dll"
+			LocalizationFiles="Ruler-en_us.wxl"
+			NoLogo=""
+			LeaveTemporaryFiles=""
+			ReuseCabinetCache=""
+			OutputFile="$(DistribPath)\eng\$(ClientMSIName).msi"
+			OutputAsXml=""
+			SuppressDefaultAdminSequenceActions=""
+			SuppressDefaultAdvSequenceActions=""
+			SuppressAssemblies=""
+			SuppressFiles=""
+			SuppressLayout=""
+			SuppressSchemaValidation=""
+			SuppressDefaultUISequenceActions=""
+			SuppressIntermediateFileVersionMatching=""
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			Cultures="en-US"
+			ToolPath="$(WIXPath)"
+			/>
+
+		<!-- x64 -->
+
+		<Candle
+			SourceFiles="$(ClientMSIPath)\rulerr.wxs"
+			DefineConstants="OS64;VERSION=$(Version);LICENSE=Documents/License_eng.rtf;LANGUAGE=1033;CODEPAGE=1252"
+			PreprocessToStdOut=""
+			PreprocessToFile=""
+			IncludeSearchPaths=""
+			NoLogo="yes"
+			OutputFile="$(TempPath)\$(ClientMSIName64).wixobj"
+			SuppressSchemaValidation=""
+			ShowSourceTrace=""
+			Extensions="$(WixPath)\WixUtilExtension.dll"
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			ToolPath="$(WIXPath)" />
+
+		<Light
+			ObjectFiles="$(TempPath)\$(ClientMSIName64).wixobj"
+			Extensions="$(WixPath)\WixUIExtension.dll;$(WixPath)\WixUtilExtension.dll"
+			LocalizationFiles="Ruler-en_us.wxl"
+			NoLogo=""
+			LeaveTemporaryFiles=""
+			ReuseCabinetCache=""
+			OutputFile="$(DistribPath)\eng\$(ClientMSIName64).msi"
+			OutputAsXml=""
+			SuppressDefaultAdminSequenceActions=""
+			SuppressDefaultAdvSequenceActions=""
+			SuppressAssemblies=""
+			SuppressFiles=""
+			SuppressLayout=""
+			SuppressSchemaValidation=""
+			SuppressDefaultUISequenceActions=""
+			SuppressIntermediateFileVersionMatching=""
+			SuppressAllWarnings=""
+			TreatWarningsAsErrors=""
+			VerboseOutput=""
+			Cultures="en-US"
+			ToolPath="$(WIXPath)"
+			/>
+	</Target>
+	<!-- окончание английской сборки msi -->
+</Project>

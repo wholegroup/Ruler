@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WixLocalization Culture="ru-RU" xmlns="http://schemas.microsoft.com/wix/2006/localization" >
+	<String Id="RulerARPCOMMENTS">Виртуальная линейка для работы с электронными документами</String>
+	<String Id="RulerARPCONTACT">Андрей В. Рычков (rr@wholegroup.com)</String>
+	<String Id="RulerUninstall">Удалить</String>
+	<String Id="RulerManufacturer">Андрей В. Рычков</String>
+	<String Id="RulerDescription">Виртуальная линейка для работы с электронными документами</String>
+	<String Id="RulerError01">На этот компьютере уже установлена более новая версия</String>
+</WixLocalization>

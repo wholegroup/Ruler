@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?define ProductVersion="$(var.VERSION)" ?>
+
+<!-- имя каталога для установки -->
+<?define DirName="Ruler Reader" ?>
+
+<!-- для обновления -->
+<?define RTMProductVersion="0.0.0" ?>
+<?define UpgradeCode="31F189C3-0B26-41C8-ABE1-93B13EF51219" ?>
+
+<!-- платформа -->
+<?ifdef OS64 ?>
+	<?define Platform="x64" ?>
+<?else ?>
+	<?define Platform="x86" ?>
+<?endif ?>
+
+<!-- путь к файлу EULA -->
+<?define LicenseFile="$(var.LICENSE)" ?>
+
+<Wix 
+	xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+<Product Id="*"
+	Name="Ruler Reader $(var.ProductVersion)"
+	Language="$(var.LANGUAGE)"
+	Codepage="$(var.CODEPAGE)"
+	Version='$(var.ProductVersion)'
+	UpgradeCode='$(var.UpgradeCode)'
+	Manufacturer="!(loc.RulerManufacturer)">
+
+	<Package Id="*"
+		Description="!(loc.RulerDescription)" 
+		Comments="http://rr.wholegroup.com" 
+		InstallerVersion="200"
+		Compressed="yes"
+		Keywords='Installer,MSI,Database'
+		AdminImage="no"
+		Platform="$(var.Platform)"
+	/>
+
+	<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+
+	<!-- копоненты для установки -->
+	<Feature Id="Complete" Level="1" >
+		<ComponentRef Id="Ruler"/>
+		<ComponentRef Id="ShortcutMenuComponent" />
+		<ComponentRef Id="ShortcutDesktopComponent" />
+		<ComponentRef Id="ShortcutUninstallComponent" />
+	</Feature>
+
+	<!-- Файлы для установки -->
+	<Directory Id="TARGETDIR" Name="SourceDir">
+		<?ifdef OS64 ?>
+		<!-- установка на x64 -->
+		<Directory Id="ProgramFiles64Folder">
+			<Directory Id="INSTALLDIR" Name='$(var.DirName)'>
+				<Component Id="Ruler" Guid="EE0CC850-4AC2-4416-BFE8-ACECFD8FEC21" DiskId="1" Win64="yes">
+					<Condition>VersionNT64</Condition>
+					<File Id="rulerbin" Name='Ruler.exe' Source="Sources/vs2010/x64/Release/Ruler.exe" />
+					<File Id="ruleremf" Name='ruler.emf' Source="Sources/ruler.emf"/>
+				</Component>
+			</Directory>
+		</Directory>
+		<?else ?>
+		<!-- установка на x86 --> 
+		<Directory Id="ProgramFilesFolder">
+			<Directory Id="INSTALLDIR" Name='$(var.DirName)'>
+				<Component Id="Ruler" Guid="CE68D6E5-F101-4C5D-869A-F597811CD7F7" DiskId="1" Win64="no">
+					<Condition>NOT VersionNT64</Condition>
+					<File Id="rulerbin" Name='Ruler.exe' Source="Sources/vs2010/Release/Ruler.exe" />
+					<File Id="ruleremf" Name='ruler.emf' Source="Sources/ruler.emf"/>
+				</Component>
+			</Directory>
+		</Directory>
+		<?endif ?>
+
+		<!-- создание ярлыков программы в меню пуск -->
+		<Directory Id="ProgramMenuFolder">
+		<Directory Id="ProgramMenuDir" Name="Ruler Reader">
+			<Component Id="ShortcutUninstallComponent" Guid="5AF1BDD5-FC58-498B-8599-535B7572DFED">
+				<RegistryKey Root="HKCU" Key="Software\www.wholegroup.com\Ruler Reader">
+					<RegistryValue Name="ShortcutsUninstall" Value="Installed" Type="string" KeyPath="yes" />
+				</RegistryKey>
+					<Shortcut Id="UninstallProduct"
+						Name="!(loc.RulerUninstall)"
+						Target="[SystemFolder]msiexec.exe"
+						Arguments="/x [ProductCode]"
+						Directory="ProgramMenuDir"
+						Description="!(loc.RulerUninstall)">
+					</Shortcut>
+			</Component>
+			<Component Id="ShortcutMenuComponent" Guid="9A492E3B-D71C-43A2-822B-E0AA23BBC8E0">
+				<RegistryKey Root="HKCU" Key="Software\www.wholegroup.com\Ruler Reader">
+					<RegistryValue Name="ShortcutsMenu" Value="Installed" Type="string" KeyPath="yes" />
+				</RegistryKey>
+				<Shortcut Id="ApplicationMenu"
+					Advertise="no"
+					Name="Ruler Reader"
+					Target="[!rulerbin]"
+					Directory="ProgramMenuDir" />
+				<RemoveFolder Id="RemoveShortcutFolder" On="uninstall" />
+			</Component>
+		</Directory>
+		</Directory>
+
+		<!-- создание ярлыка на программу на рабочем столе -->
+		<Directory Id="DesktopFolder" Name="Desktop">
+			<Component Id="ShortcutDesktopComponent" Guid="BE19016F-EC42-4126-93A2-01687D17EEB2">
+				<RegistryKey Root="HKCU" Key="Software\www.wholegroup.com\Ruler Reader">
+					<RegistryValue Name="ShortcutsDesktop" Value="Installed" Type="string" KeyPath="yes" />
+				</RegistryKey>
+				<Shortcut Id="ApplicationDesktop"
+					Advertise="no"
+					Name="Ruler Reader"
+					Target="[!rulerbin]"
+					Directory="DesktopFolder" />
+			</Component>
+		</Directory>
+
+	</Directory>
+
+	<!-- Различное описание установочного пакета -->
+	<Property Id="ARPCOMMENTS" Value="!(loc.RulerARPCOMMENTS)" />
+	<Property Id="ARPCONTACT" Value="!(loc.RulerARPCONTACT)" />
+	<Property Id="ARPPRODUCTICON" Value="ruler.ico" />
+	<Property Id="ARPHELPLINK" Value="http://rr.wholegroup.com" />
+	<Property Id="ARPREADME" Value="http://rr.wholegroup.com" />
+	<Property Id="ARPURLINFOABOUT" Value="http://rr.wholegroup.com" />
+	<Property Id="ARPURLUPDATEINFO" Value="http://rr.wholegroup.com" />
+	<Property Id="ARPHELPTELEPHONE" Value="+7 912 741 59 23" />
+	<Property Id="ARPAUTHORIZEDCDFPREFIX" Value="http://rr.wholegroup.com" />
+	<Property Id="ALLUSERS" Value="1" />
+
+	<CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
+	<InstallExecuteSequence>
+		<Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
+	</InstallExecuteSequence>	
+
+	<Icon Id="ruler.ico" SourceFile="Sources/ruler.ico" />
+	
+	<!-- код для обновления продукта -->
+	<Upgrade Id="$(var.UpgradeCode)">
+		<UpgradeVersion Minimum="$(var.ProductVersion)"
+			IncludeMinimum="no"
+			OnlyDetect="yes"
+			Language="$(var.LANGUAGE)"
+			Property="NEWPRODUCTFOUND" />
+
+		<UpgradeVersion Minimum="$(var.RTMProductVersion)"
+			IncludeMinimum="yes"
+			Maximum="$(var.ProductVersion)"
+			IncludeMaximum="no"
+			Language="$(var.LANGUAGE)"
+			Property="UPGRADEFOUND" />
+	</Upgrade>
+
+	<CustomAction Id="PreventDowngrading" Error="!(loc.RulerError01)" />
+	<InstallExecuteSequence>
+		<Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+		<RemoveExistingProducts Before="InstallInitialize">UPGRADEFOUND</RemoveExistingProducts>
+	</InstallExecuteSequence>
+
+	<InstallUISequence>
+		<Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+	</InstallUISequence>
+
+	<!-- код для запуска продукта -->
+	<CustomAction Id='LaunchRuler' ExeCommand="[INSTALLDIR]ruler.exe" Directory="INSTALLDIR" Return='asyncNoWait' Impersonate="yes" />
+	<InstallExecuteSequence>
+		<Custom Action='LaunchRuler' After='InstallFinalize'>NOT Installed</Custom>
+	</InstallExecuteSequence>
+
+	<!-- код для закрытия программы (при удалении или upgrade) -->
+	<util:CloseApplication Id="RunningSmartSVN" Target="Ruler.exe" Property="RUNNINGAPP" CloseMessage="yes" RebootPrompt="no" />
+	<!--<Condition Message="SmartSVN is still running; maybe only in the SystemTray. You have to shutdown SmartSVN before continuing.">NOT RUNNINGAPP</Condition>-->
+	<InstallExecuteSequence>
+		<Custom Action="WixCloseApplications" Before="InstallInitialize">Installed</Custom>
+	</InstallExecuteSequence> 
+
+	<!-- определени GUI -->
+	<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+	<UIRef Id="WixUI_InstallDir" />
+	<WixVariable Id='WixUILicenseRtf' Value='$(var.LicenseFile)' />
+</Product>
+
+</Wix>

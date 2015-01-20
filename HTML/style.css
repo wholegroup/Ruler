@@ -1,0 +1,149 @@
+html
+{
+	background-color: #EEEEEE;
+	padding         : 0px;
+	margin          : 0px; 
+	background-image: url(img/background.png);
+}
+
+body
+{
+	width           : 700px;
+	margin-bottom   : 40px;
+	text-align      : center;
+	margin-left     : auto;
+	margin-right    : auto;
+}
+
+#divBody
+{
+	text-align         : left;
+	background-color   : white;
+	margin-top         : 40px;
+	width              : 700px;
+	background-image   : url(img/ruler.png);
+	background-position: center top;
+	background-repeat  : no-repeat;
+	padding-top        : 50px;
+	border             : 2px solid gray;
+}
+
+#divLanguages
+{
+	margin-right : 10px;
+	margin-top   : -47px;
+	margin-bottom: 10px;
+	text-align   : right;
+}
+
+/* for IE6 */
+/*\*/
+* html #divLanguages 
+{
+	margin-right : 8px;
+}
+/**/
+
+#divLanguages a
+{
+	margin-left: 16px;
+}
+
+#divFooter
+{
+	font-family: Arial;
+	font-size  : 0.7em;
+	font-weight: bold;
+	margin     : 10px;
+	text-align : center;
+	line-height: 2em;
+}
+
+h1
+{
+	font-family   : Trebuchet MS;
+	font-size     : 1.1em;
+	background    : url('img/line.png') no-repeat left bottom;
+	padding-top   : 25px;
+	padding-bottom: 5px;
+	padding-left  : 15px;
+	padding-right : 15px;
+	margin-top    : 0px;
+	margin-bottom : 0px;
+}
+
+.content
+{
+	font-family   : Trebuchet MS;
+	font-size     : 0.8em;
+	padding-left  : 15px;
+	padding-right : 15px;
+	margin-top    : 5px;
+	line-height   : 2em;
+}
+
+.content p
+{
+	text-indent: 2em;
+	padding    : 0xp;
+	margin     : 0px;
+	text-align : justify;
+}
+
+.content ul
+{
+	padding      : 0xp;
+	margin-top   : 0.5em;
+	margin-bottom: 0.5em;
+}
+
+#tblOrder
+{
+	font-family    : Trebuchet MS;
+	border-collapse: collapse;
+	font-size      : 1em;
+}
+
+#tblOrder caption
+{
+	font-size: 1.2em;
+	padding  : 4px;
+}
+
+#tblOrder td
+{
+	border : 1px solid #BBBBBB;
+	padding: 5px;
+}
+
+#tblOrder td.price
+{
+	font-weight: bold;
+	text-align : center;
+	color      : #888888;
+}
+
+#tblOrder td.name
+{
+	font-weight: bold;
+	text-align : right;
+	color      : black;
+}
+
+#ajax-loader
+{
+	padding-right: 5em;
+	color        : red;
+	font-weight  : bold;
+	visibility   : hidden;
+}
+
+#tblSendMail
+{
+	font-size: 1em;
+}
+
+#tblSendMail td.name
+{
+	text-align: right;
+}
