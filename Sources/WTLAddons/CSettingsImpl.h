@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <fstream>
 #include <map>
@@ -10,13 +10,13 @@
 typedef map<wstring, wstring> CMapSettings;
 
 //////////////////////////////////////////////////////////////////////////
-// класс для работы с параметрами программы
+// РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё РїСЂРѕРіСЂР°РјРјС‹
 //
 class CSettingsImpl
 {
 	public:
 
-		// контруктор
+		// РєРѕРЅС‚СЂСѓРєС‚РѕСЂ
 		CSettingsImpl()
 		{
 			m_hkMain = HKEY_CURRENT_USER;
@@ -34,28 +34,28 @@ class CSettingsImpl
 			}
 		}
 
-		// деструктор
+		// РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 		~CSettingsImpl()
 		{
 			;
 		}
 
-	// свойства класса
+	// СЃРІРѕР№СЃС‚РІР° РєР»Р°СЃСЃР°
 	private:
-		HKEY         m_hkMain;      // ключ реестра для хранения настроек
-		wstring      m_wsCompany;   // наименование компании
-		wstring      m_wsProgram;   // наименование программы
-		wstring      m_wsKeyPath;   // полный к ветке реестра для настроек программы
-		CMapSettings m_mapSettings; // список настроек программы
-		BOOL         m_bChanged;    // истина, если настройки были изменены
-		BOOL         m_bFile;       // истина, если настройки хранятся в файле
-		wstring      m_wsIni;       // полный пункт к ini-файлу
+		HKEY         m_hkMain;      // РєР»СЋС‡ СЂРµРµСЃС‚СЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РЅР°СЃС‚СЂРѕРµРє
+		wstring      m_wsCompany;   // РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РєРѕРјРїР°РЅРёРё
+		wstring      m_wsProgram;   // РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РїСЂРѕРіСЂР°РјРјС‹
+		wstring      m_wsKeyPath;   // РїРѕР»РЅС‹Р№ Рє РІРµС‚РєРµ СЂРµРµСЃС‚СЂР° РґР»СЏ РЅР°СЃС‚СЂРѕРµРє РїСЂРѕРіСЂР°РјРјС‹
+		CMapSettings m_mapSettings; // СЃРїРёСЃРѕРє РЅР°СЃС‚СЂРѕРµРє РїСЂРѕРіСЂР°РјРјС‹
+		BOOL         m_bChanged;    // РёСЃС‚РёРЅР°, РµСЃР»Рё РЅР°СЃС‚СЂРѕР№РєРё Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹
+		BOOL         m_bFile;       // РёСЃС‚РёРЅР°, РµСЃР»Рё РЅР°СЃС‚СЂРѕР№РєРё С…СЂР°РЅСЏС‚СЃСЏ РІ С„Р°Р№Р»Рµ
+		wstring      m_wsIni;       // РїРѕР»РЅС‹Р№ РїСѓРЅРєС‚ Рє ini-С„Р°Р№Р»Сѓ
 
-	// методы класса
+	// РјРµС‚РѕРґС‹ РєР»Р°СЃСЃР°
 	private:
 
 		//////////////////////////////////////////////////////////////////////////
-		// формирование пути к настройкам
+		// С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РїСѓС‚Рё Рє РЅР°СЃС‚СЂРѕР№РєР°Рј
 		//
 		inline wstring GetRegKeyPath()
 		{
@@ -65,7 +65,7 @@ class CSettingsImpl
 		}
 
 		//////////////////////////////////////////////////////////////////////////
-		// чтение параметров
+		// С‡С‚РµРЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ
 		//
 		INT ReadSettings()
 		{
@@ -75,7 +75,7 @@ class CSettingsImpl
 				return 0;
 			}
 
-			// получение каталога, откуда запущена программа
+			// РїРѕР»СѓС‡РµРЅРёРµ РєР°С‚Р°Р»РѕРіР°, РѕС‚РєСѓРґР° Р·Р°РїСѓС‰РµРЅР° РїСЂРѕРіСЂР°РјРјР°
 			wstring       wsPath;
 			vector<WCHAR> pwcPath(MAX_PATH);
 
@@ -87,13 +87,13 @@ class CSettingsImpl
 			wsPath = &pwcPath.front();
 			wsPath.erase(wsPath.rfind(L"\\") + 1);
 
-			// проверка в текущем каталоге INI файла
+			// РїСЂРѕРІРµСЂРєР° РІ С‚РµРєСѓС‰РµРј РєР°С‚Р°Р»РѕРіРµ INI С„Р°Р№Р»Р°
 			m_wsIni = wsPath + m_wsProgram + L".ini";
 			ATLASSERT(!m_wsIni.empty());
 
 			CTextFileRead fileIni(m_wsIni.c_str());
 
-			// если файл есть, то чтение настроек из файла
+			// РµСЃР»Рё С„Р°Р№Р» РµСЃС‚СЊ, С‚Рѕ С‡С‚РµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє РёР· С„Р°Р№Р»Р°
 			if (fileIni.IsOpen())
 			{
 				m_bFile = TRUE;
@@ -104,63 +104,63 @@ class CSettingsImpl
 				{
 					fileIni.ReadLine(wsLine);
 
-					// пропускаем пустые строки
+					// РїСЂРѕРїСѓСЃРєР°РµРј РїСѓСЃС‚С‹Рµ СЃС‚СЂРѕРєРё
 					if (wsLine.empty())
 					{
 						continue;
 					}
 
-					// пропускаем названия секций
+					// РїСЂРѕРїСѓСЃРєР°РµРј РЅР°Р·РІР°РЅРёСЏ СЃРµРєС†РёР№
 					if (L'[' == wsLine[0])
 					{
 						continue;
 					}
 
-					// поиск = (равно)
+					// РїРѕРёСЃРє = (СЂР°РІРЅРѕ)
 					wstring::size_type indexEqual = wsLine.find(L'=');
 
-					// пропускаем строку, если не нашли =
+					// РїСЂРѕРїСѓСЃРєР°РµРј СЃС‚СЂРѕРєСѓ, РµСЃР»Рё РЅРµ РЅР°С€Р»Рё =
 					if (indexEqual == wstring::npos)
 					{
 						continue;
 					}
 
-					// получаем название параметра
+					// РїРѕР»СѓС‡Р°РµРј РЅР°Р·РІР°РЅРёРµ РїР°СЂР°РјРµС‚СЂР°
 					wstring wsName = wsLine.substr(0, indexEqual);
 
 					wsName.erase(0, wsName.find_first_not_of(L' '));
 					wsName.erase(wsName.find_last_not_of(L' ') + 1, wstring::npos);
 
-					// получаем значение параметра
+					// РїРѕР»СѓС‡Р°РµРј Р·РЅР°С‡РµРЅРёРµ РїР°СЂР°РјРµС‚СЂР°
 					wstring wsValue = wsLine.substr(++indexEqual);
 					
 					wsValue.erase(0, wsValue.find_first_not_of(L' '));
 					wsValue.erase(wsValue.find_last_not_of(L' ') + 1, wstring::npos);
 
-					// запоминаем параметр
+					// Р·Р°РїРѕРјРёРЅР°РµРј РїР°СЂР°РјРµС‚СЂ
 					m_mapSettings.insert(make_pair(wsName, wsValue));
 				}
 
 				fileIni.Close();
 			}
 
-			// если ini файла нет, то чтение настроек из реестра
+			// РµСЃР»Рё ini С„Р°Р№Р»Р° РЅРµС‚, С‚Рѕ С‡С‚РµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє РёР· СЂРµРµСЃС‚СЂР°
 			else
 			{
 				HKEY hKeySetting = NULL;
 				
-				// формирование пути к настройкам
+				// С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РїСѓС‚Рё Рє РЅР°СЃС‚СЂРѕР№РєР°Рј
 				m_wsKeyPath  = GetRegKeyPath();
 
 				while (TRUE, TRUE)
 				{
-					// открываем реестр
+					// РѕС‚РєСЂС‹РІР°РµРј СЂРµРµСЃС‚СЂ
 					if (ERROR_SUCCESS != RegOpenKeyEx(m_hkMain, m_wsKeyPath.c_str(), 0, KEY_READ, &hKeySetting))
 					{
 						break;
 					}
 
-					// получение количества сабключей
+					// РїРѕР»СѓС‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° СЃР°Р±РєР»СЋС‡РµР№
 					DWORD dwValues = 0;
 
 					if (ERROR_SUCCESS != RegQueryInfoKey(hKeySetting, NULL, NULL, NULL, NULL, NULL, NULL, &dwValues, NULL, NULL, NULL, NULL))
@@ -176,7 +176,7 @@ class CSettingsImpl
 						vector<WCHAR> pwcKeyValue(MAX_KEY_VALUE);
 						DWORD         dwLengthValue;
 
-						// цикл по всем элементам ветки реестра
+						// С†РёРєР» РїРѕ РІСЃРµРј СЌР»РµРјРµРЅС‚Р°Рј РІРµС‚РєРё СЂРµРµСЃС‚СЂР°
 						for (DWORD i = 0; i < dwValues; i++)
 						{
 							pwcKeyName[0]  = 0;
@@ -184,19 +184,19 @@ class CSettingsImpl
 							pwcKeyValue[0] = 0;
 							dwLengthValue  = MAX_KEY_VALUE * sizeof(WCHAR);
 
-							// получаем наименование и значение элемента
+							// РїРѕР»СѓС‡Р°РµРј РЅР°РёРјРµРЅРѕРІР°РЅРёРµ Рё Р·РЅР°С‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°
 							if (ERROR_SUCCESS != RegEnumValue(hKeySetting, i, &pwcKeyName.front(), &dwLengthName, NULL, &dwTypeValue, (LPBYTE)&pwcKeyValue.front(), &dwLengthValue))
 							{
 								break;
 							}
 
-							// если не строка, то пропускаем
+							// РµСЃР»Рё РЅРµ СЃС‚СЂРѕРєР°, С‚Рѕ РїСЂРѕРїСѓСЃРєР°РµРј
 							if (REG_SZ != dwTypeValue)
 							{
 								continue;
 							}
 
-							// запоминаем параметр
+							// Р·Р°РїРѕРјРёРЅР°РµРј РїР°СЂР°РјРµС‚СЂ
 							m_mapSettings.insert(make_pair(&pwcKeyName.front(), &pwcKeyValue.front()));
 						}
 					}
@@ -204,7 +204,7 @@ class CSettingsImpl
 					break;
 				}
 
-				// закрываем реестр
+				// Р·Р°РєСЂС‹РІР°РµРј СЂРµРµСЃС‚СЂ
 				if (NULL != hKeySetting)
 				{
 					ATLVERIFY(ERROR_SUCCESS == RegCloseKey(hKeySetting));
@@ -216,30 +216,30 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// запись параметров
+		// Р·Р°РїРёСЃСЊ РїР°СЂР°РјРµС‚СЂРѕРІ
 		//
 		INT WriteSettings()
 		{
-			// проверка изменения параметров
+			// РїСЂРѕРІРµСЂРєР° РёР·РјРµРЅРµРЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
 			if (FALSE == m_bChanged)
 			{
 				return 0;
 			}
 
-			// проверка ключей для хранения параметров
+			// РїСЂРѕРІРµСЂРєР° РєР»СЋС‡РµР№ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
 			ATLASSERT(!m_wsCompany.empty() && !m_wsProgram.empty());
 			if (m_wsCompany.empty() || m_wsProgram.empty())
 			{
 				return 0;
 			}
 
-			// проверка наличия параметров
+			// РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
 			if (0 == m_mapSettings.size())
 			{
 				return 0;
 			}
 
-			// запись в файл
+			// Р·Р°РїРёСЃСЊ РІ С„Р°Р№Р»
 			if (TRUE == m_bFile)
 			{
 				ATLASSERT(!m_wsIni.empty());
@@ -257,7 +257,7 @@ class CSettingsImpl
 				}
 			}
 
-			// запись в реестр
+			// Р·Р°РїРёСЃСЊ РІ СЂРµРµСЃС‚СЂ
 			else
 			{
 				HKEY hKeySetting = NULL;
@@ -266,17 +266,17 @@ class CSettingsImpl
 				{
 					ATLASSERT(!m_wsKeyPath.empty());
 					
-					// открываем реестр
+					// РѕС‚РєСЂС‹РІР°РµРј СЂРµРµСЃС‚СЂ
 					if (ERROR_SUCCESS != RegOpenKeyEx(m_hkMain, m_wsKeyPath.c_str(), 0, KEY_SET_VALUE, &hKeySetting))
 					{
-						// создаем ветку
+						// СЃРѕР·РґР°РµРј РІРµС‚РєСѓ
 						if (ERROR_SUCCESS != RegCreateKey(m_hkMain, m_wsKeyPath.c_str(), &hKeySetting))
 						{
 							break;
 						}
 					}
 
-					// записываем данные
+					// Р·Р°РїРёСЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ
 					for (CMapSettings::iterator setting = m_mapSettings.begin(); setting != m_mapSettings.end(); setting++)
 					{
 						if (ERROR_SUCCESS != RegSetValueEx(hKeySetting, setting->first.c_str(), 0, REG_SZ, (PBYTE)(setting->second.c_str()), (DWORD)(setting->second.size() * sizeof(wstring::value_type))))
@@ -300,7 +300,7 @@ class CSettingsImpl
 	public:
 		
 		//////////////////////////////////////////////////////////////////////////
-		// открытие настроек
+		// РѕС‚РєСЂС‹С‚РёРµ РЅР°СЃС‚СЂРѕРµРє
 		//
 		VOID OpenSettings(wstring wsCompany, wstring wsProgram)
 		{
@@ -316,7 +316,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// закрытие настроек
+		// Р·Р°РєСЂС‹С‚РёРµ РЅР°СЃС‚СЂРѕРµРє
 		//
 		VOID CloseSettings(BOOL bSave = TRUE)
 		{
@@ -336,7 +336,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получить строковой параметр
+		// РџРѕР»СѓС‡РёС‚СЊ СЃС‚СЂРѕРєРѕРІРѕР№ РїР°СЂР°РјРµС‚СЂ
 		//
 		wstring GetSettingsString(wstring wsName, wstring wsDefault = L"")
 		{
@@ -355,7 +355,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Сохранить строковой параметр
+		// РЎРѕС…СЂР°РЅРёС‚СЊ СЃС‚СЂРѕРєРѕРІРѕР№ РїР°СЂР°РјРµС‚СЂ
 		//
 		VOID SetSettingsString(wstring wsName, wstring wsValue = L"")
 		{
@@ -366,7 +366,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получить целочисленный параметр
+		// РџРѕР»СѓС‡РёС‚СЊ С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ
 		//
 		INT GetSettingsInteger(wstring wsName, INT iDefault = 0)
 		{
@@ -380,7 +380,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Сохранить целочисленный параметр
+		// РЎРѕС…СЂР°РЅРёС‚СЊ С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ
 		//
 		VOID SetSettingsInteger(wstring wsName, INT iValue = 0)
 		{
@@ -394,7 +394,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получить вещественный параметр
+		// РџРѕР»СѓС‡РёС‚СЊ РІРµС‰РµСЃС‚РІРµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ
 		//
 		FLOAT GetSettingsFloat(wstring wsName, FLOAT fDefault = 0.0f)
 		{
@@ -408,7 +408,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Сохранить вещественный параметр
+		// РЎРѕС…СЂР°РЅРёС‚СЊ РІРµС‰РµСЃС‚РІРµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ
 		//
 		VOID SetSettingsFloat(wstring wsName, FLOAT fValue = 0.0f)
 		{
@@ -422,7 +422,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получить логический параметр
+		// РџРѕР»СѓС‡РёС‚СЊ Р»РѕРіРёС‡РµСЃРєРёР№ РїР°СЂР°РјРµС‚СЂ
 		//
 		BOOL GetSettingsBoolean(wstring wsName, BOOL bDefault = TRUE)
 		{
@@ -440,7 +440,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Сохранить логический параметр
+		// РЎРѕС…СЂР°РЅРёС‚СЊ Р»РѕРіРёС‡РµСЃРєРёР№ РїР°СЂР°РјРµС‚СЂ
 		//
 		VOID SetSettingsBoolean(wstring wsName, BOOL bValue = TRUE)
 		{
@@ -458,7 +458,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получение строкового значения из реестра
+		// РџРѕР»СѓС‡РµРЅРёРµ СЃС‚СЂРѕРєРѕРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РёР· СЂРµРµСЃС‚СЂР°
 		//
 		wstring GetRegSettingsString(wstring wsName, wstring wsDefault = L"")
 		{
@@ -473,7 +473,7 @@ class CSettingsImpl
 
 			while (TRUE, TRUE)
 			{
-				// открываем реестр
+				// РѕС‚РєСЂС‹РІР°РµРј СЂРµРµСЃС‚СЂ
 				if (ERROR_SUCCESS != RegOpenKeyEx(m_hkMain, m_wsKeyPath.c_str(), 0, KEY_QUERY_VALUE, &hKeySettings))
 				{
 					break;
@@ -498,7 +498,7 @@ class CSettingsImpl
 				break;
 			}
 
-			// закрываем реестр
+			// Р·Р°РєСЂС‹РІР°РµРј СЂРµРµСЃС‚СЂ
 			if (NULL != hKeySettings)
 			{
 				ATLVERIFY(ERROR_SUCCESS == RegCloseKey(hKeySettings));
@@ -509,7 +509,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Запись строкового значения в реестр
+		// Р—Р°РїРёСЃСЊ СЃС‚СЂРѕРєРѕРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РІ СЂРµРµСЃС‚СЂ
 		//
 		BOOL SetRegSettingsString(wstring wsName, wstring wsValue)
 		{
@@ -521,7 +521,7 @@ class CSettingsImpl
 
 			HKEY hKeySettings = NULL;
 
-			// открываем реестр
+			// РѕС‚РєСЂС‹РІР°РµРј СЂРµРµСЃС‚СЂ
 			if (ERROR_SUCCESS != RegOpenKeyEx(m_hkMain, m_wsKeyPath.c_str(), 0, KEY_SET_VALUE, &hKeySettings))
 			{
 				return FALSE;
@@ -541,7 +541,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получение целочисленного значения из реестра
+		// РџРѕР»СѓС‡РµРЅРёРµ С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РёР· СЂРµРµСЃС‚СЂР°
 		//
 		INT GetRegSettingsInteger(wstring wsName, INT iDefault = 0)
 		{
@@ -559,7 +559,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Запись в реестр целочисленного значения
+		// Р—Р°РїРёСЃСЊ РІ СЂРµРµСЃС‚СЂ С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 		//
 		BOOL SetRegSettingsInteger(wstring wsName, INT iValue)
 		{
@@ -577,7 +577,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получение вещественного значения из реестра
+		// РџРѕР»СѓС‡РµРЅРёРµ РІРµС‰РµСЃС‚РІРµРЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РёР· СЂРµРµСЃС‚СЂР°
 		//
 		FLOAT GetRegSettingsFloat(wstring wsName, FLOAT fDefault = 0)
 		{
@@ -595,7 +595,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Запись в реестр вещественного значения
+		// Р—Р°РїРёСЃСЊ РІ СЂРµРµСЃС‚СЂ РІРµС‰РµСЃС‚РІРµРЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 		//
 		BOOL SetRegSettingsInteger(wstring wsName, FLOAT fValue)
 		{
@@ -613,7 +613,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Получение из реестра булевого значения
+		// РџРѕР»СѓС‡РµРЅРёРµ РёР· СЂРµРµСЃС‚СЂР° Р±СѓР»РµРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 		//
 		BOOL GetRegSettingsBoolean(wstring wsName, BOOL bDefault = TRUE)
 		{
@@ -635,7 +635,7 @@ class CSettingsImpl
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Запись в реестр булевого значения
+		// Р—Р°РїРёСЃСЊ РІ СЂРµРµСЃС‚СЂ Р±СѓР»РµРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 		//
 		BOOL SetRegSettingsBoolean(wstring wsName, BOOL bValue)
 		{

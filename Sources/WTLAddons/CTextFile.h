@@ -1,28 +1,28 @@
-#pragma once
+п»ї#pragma once
 
 #ifndef PEKSPRODUCTIONS_TEXTFILE
 #define PEKSPRODUCTIONS_TEXTFILE
 
 /*
-основано на исходниках http://www.codeproject.com/file/textfiledocument.asp
+РѕСЃРЅРѕРІР°РЅРѕ РЅР° РёСЃС…РѕРґРЅРёРєР°С… http://www.codeproject.com/file/textfiledocument.asp
 */
 
 #include <string>
 
 using namespace std;
 
-// тип названия файла
+// С‚РёРї РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»Р°
 typedef WCHAR FILENAMECHAR;
 
-// размер буфера чтения/записи
+// СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° С‡С‚РµРЅРёСЏ/Р·Р°РїРёСЃРё
 #define BUFFSIZE 1024
 
-// проверяет валидность кодировки
+// РїСЂРѕРІРµСЂСЏРµС‚ РІР°Р»РёРґРЅРѕСЃС‚СЊ РєРѕРґРёСЂРѕРІРєРё
 #define IsLegalCodePage(cp) (CP_ACP == cp || CP_MACCP == cp || CP_OEMCP == cp || CP_SYMBOL == cp || CP_THREAD_ACP == cp || CP_UTF7 == cp || CP_UTF8 == cp || IsValidCodePage(cp))
 
 
 //////////////////////////////////////////////////////////////////////////
-// Класс-исключение
+// РљР»Р°СЃСЃ-РёСЃРєР»СЋС‡РµРЅРёРµ
 //
 class CTextFileException
 {
@@ -40,7 +40,7 @@ class CTextFileException
 
 
 //////////////////////////////////////////////////////////////////////////
-// Базовый класс
+// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ
 // 
 class CTextFileBase
 {
@@ -48,7 +48,7 @@ class CTextFileBase
 
 		enum TEXTENCODING {ASCII, UNI16_BE, UNI16_LE, UTF_8};
 
-		// контруктор по-умолчанию
+		// РєРѕРЅС‚СЂСѓРєС‚РѕСЂ РїРѕ-СѓРјРѕР»С‡Р°РЅРёСЋ
 		CTextFileBase()
 		{
 			m_codepage    = CP_ACP;
@@ -58,7 +58,7 @@ class CTextFileBase
 			m_buffpos     = -1;
 		}
 
-		// деструктор по-умолчанию
+		// РґРµСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ-СѓРјРѕР»С‡Р°РЅРёСЋ
 		~CTextFileBase()
 		{
 			Close();
@@ -92,14 +92,14 @@ class CTextFileBase
 
 	public:
 
-		// Файл открыт ?
+		// Р¤Р°Р№Р» РѕС‚РєСЂС‹С‚ ?
 		INT IsOpen()
 		{
 			return INVALID_HANDLE_VALUE != m_hFile;
 		}
 
 
-		// Закрыть файл
+		// Р—Р°РєСЂС‹С‚СЊ С„Р°Р№Р»
 		virtual VOID Close()
 		{
 			if(TRUE == IsOpen())
@@ -111,7 +111,7 @@ class CTextFileBase
 		}
 
 
-		// возвращает кодировку файла
+		// РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕРґРёСЂРѕРІРєСѓ С„Р°Р№Р»Р°
 		TEXTENCODING GetEncoding() const
 		{
 			return m_encoding;
@@ -218,7 +218,7 @@ class CTextFileBase
 
 
 //////////////////////////////////////////////////////////////////////////
-// Запись текстовых файлов
+// Р—Р°РїРёСЃСЊ С‚РµРєСЃС‚РѕРІС‹С… С„Р°Р№Р»РѕРІ
 //
 class CTextFileWrite : public CTextFileBase
 {
@@ -509,7 +509,7 @@ class CTextFileWrite : public CTextFileBase
 
 
 //////////////////////////////////////////////////////////////////////////
-// Класс чтения текстовых файлов
+// РљР»Р°СЃСЃ С‡С‚РµРЅРёСЏ С‚РµРєСЃС‚РѕРІС‹С… С„Р°Р№Р»РѕРІ
 //
 class CTextFileRead : public CTextFileBase
 {
